@@ -1,3 +1,4 @@
+import 'package:app1/ui/controllers/auth_controller.dart';
 import 'package:app1/ui/screens/profile_screen.dart';
 import 'package:app1/ui/screens/sign_in_screen.dart';
 import 'package:app1/ui/utils/app_colors.dart';
@@ -59,7 +60,8 @@ class TMAppBar extends StatelessWidget implements PreferredSize {
               ),
             ),
             IconButton(
-              onPressed: () {
+              onPressed: () async {
+                await AuthController.clearUserData();
                 Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(

@@ -1,6 +1,7 @@
 import 'package:app1/data/models/network_response.dart';
 import 'package:app1/data/services/network_caller.dart';
 import 'package:app1/data/utils/urls.dart';
+import 'package:app1/ui/controllers/auth_controller.dart';
 import 'package:app1/ui/screens/forgot_password_email_screen.dart';
 import 'package:app1/ui/screens/main_bottom_nav_bar_screen.dart';
 import 'package:app1/ui/screens/sign_up_screen.dart';
@@ -144,11 +145,9 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   void _onTapNextButton() {
-    if (!_formKey.currentState!.validate()) {
-      return;
+    if (_formKey.currentState == null || !_formKey.currentState!.validate()) {
+      _signIn();
     }
-
-    _signIn();
   }
 
   Future<void> _signIn() async {
@@ -164,6 +163,8 @@ class _SignInScreenState extends State<SignInScreen> {
     _inProgress = false;
     setState(() {});
     if (response.isSuccess) {
+      await AuthController.saveAccessToken(response.responseData['token']);
+
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
